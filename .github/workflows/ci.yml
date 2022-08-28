@@ -19,6 +19,18 @@ jobs:
         node-version: 16
         cache: yarn
         cache-dependency-path: vscode/yarn.lock
+    - run: sudo apt-get install qemu qemu-user-static debootstrap gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
+    - run: |
+        sudo qemu-debootstrap --arch=armhf --variant=minbase xenial rootfs
+        sudo chroot rootfs apt-get install -y libx11-dev
+    - run: |
+        export CC=$(which arm-linux-gnueabihf-gcc)
+        export CXX="$(which arm-linux-gnueabihf-g++) -L$(pwd)/rootfs/usr/lib/arm-linux-gnueabihf/"
+        export npm_config_arch=arm
+        yarn
+        yarn run gulp vscode-linux-arm-min
+        yarn run gulp vscode-linux-arm-build-deb
+      working-directory: ./vscode
     - run: |
         yarn
         yarn core-ci
