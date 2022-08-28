@@ -19,7 +19,7 @@ jobs:
 #        cache-dependency-path: vscode/yarn.lock
     - run: sudo apt-get install qemu qemu-user-static debootstrap gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
     - run: |
-        sudo qemu-debootstrap --arch=aarch64 --variant=minbase xenial rootfs
+        sudo qemu-debootstrap --arch=arm64 --variant=minbase xenial rootfs
         sudo chroot rootfs apt-get install -y libx11-dev libxkbfile-dev
     - run: |
         echo CC=$(which aarch64-linux-gnu-gcc) >> $GITHUB_ENV
