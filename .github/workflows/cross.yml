@@ -26,6 +26,8 @@ jobs:
         echo CXX="$(which arm-linux-gnueabihf-g++) -L$(pwd)/rootfs/usr/lib/arm-linux-gnueabihf/" >> $GITHUB_ENV
         echo npm_config_arch=arm64 >> $GITHUB_ENV
         echo npm_config_target_arch=arm64 >> $GITHUB_ENV
+        echo npm_config_target_platform=linux >> $GITHUB_ENV
+        echo npm_config_target_libc=glibc >> $GITHUB_ENV
     - run: |
         yarn
         yarn run gulp vscode-linux-arm-min
