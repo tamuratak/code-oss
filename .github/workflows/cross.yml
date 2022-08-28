@@ -17,7 +17,7 @@ jobs:
         node-version: 16
         cache: yarn
         cache-dependency-path: vscode/yarn.lock
-    - run: sudo apt-get install qemu qemu-user-static debootstrap gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf g++-arm-linux-gnueabihf
+    - run: sudo apt-get install qemu qemu-user-static debootstrap gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
     - run: |
         sudo qemu-debootstrap --arch=armhf --variant=minbase xenial rootfs
         sudo chroot rootfs apt-get install -y libx11-dev libxkbfile-dev
@@ -29,7 +29,7 @@ jobs:
         echo npm_config_target_platform=linux >> $GITHUB_ENV
         echo npm_config_target_libc=glibc >> $GITHUB_ENV
     - run: |
-        env AS=/usr/bin/aarch64-linux-gnu-as AR=/usr/bin/aarch64-linux-gnu-ar CC=/usr/bin/aarch64-linux-gnu-gcc CPP=/usr/bin/aarch64-linux-gnu-cpp CXX=/usr/bin/aarch64-linux-gnu-g++ LD=/usr/bin/aarch64-linux-gnu-ld  FC=/usr/bin/aarch64-linux-gnu-gfortran PKG_CONFIG_PATH=/usr/lib/aarch64-linux-gnu/pkgconfig yarn
+        env AS=/usr/bin/arm-linux-gnueabihf-as AR=/usr/bin/arm-linux-gnueabihf-ar CC=/usr/bin/arm-linux-gnueabihf-gcc CPP=/usr/bin/arm-linux-gnueabihf-cpp CXX=/usr/bin/arm-linux-gnueabihf-g++ LD=/usr/bin/arm-linux-gnueabihf-ld  FC=/usr/bin/arm-linux-gnueabihf-gfortran PKG_CONFIG_PATH=/usr/lib/arm-linux-gnueabihf/pkgconfig yarn
         yarn run gulp vscode-linux-arm-min
         yarn run gulp vscode-linux-arm-build-deb
       working-directory: ./vscode
