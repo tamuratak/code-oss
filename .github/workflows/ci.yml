@@ -24,16 +24,17 @@ jobs:
         sudo qemu-debootstrap --arch=armhf --variant=minbase xenial rootfs
         sudo chroot rootfs apt-get install -y libx11-dev
     - run: |
-        export CC=$(which arm-linux-gnueabihf-gcc)
-        export CXX="$(which arm-linux-gnueabihf-g++) -L$(pwd)/rootfs/usr/lib/arm-linux-gnueabihf/"
-        export npm_config_arch=arm
+        echo CC=$(which arm-linux-gnueabihf-gcc) >> $GITHUB_ENV
+        echo CXX="$(which arm-linux-gnueabihf-g++) -L$(pwd)/rootfs/usr/lib/arm-linux-gnueabihf/" >> $GITHUB_ENV
+        echo npm_config_arch=arm >> $GITHUB_ENV
+    - run: |
         yarn
         yarn run gulp vscode-linux-arm-min
         yarn run gulp vscode-linux-arm-build-deb
       working-directory: ./vscode
-    - run: |
-        yarn
-        yarn core-ci
-        yarn extensions-ci
-        yarn gulp vscode-reh-web-darwin-arm64-min-ci
-      working-directory: ./vscode
+#    - run: |
+#        yarn
+#        yarn core-ci
+#        yarn extensions-ci
+#        yarn gulp vscode-reh-web-darwin-arm64-min-ci
+#      working-directory: ./vscode
