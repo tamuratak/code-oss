@@ -17,7 +17,7 @@ jobs:
         node-version: 16
         cache: yarn
         cache-dependency-path: vscode/yarn.lock
-    - run: sudo apt-get install qemu qemu-user-static debootstrap gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
+    - run: sudo apt-get install qemu qemu-user-static debootstrap gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf g++-arm-linux-gnueabihf
     - run: |
         sudo qemu-debootstrap --arch=armhf --variant=minbase xenial rootfs
         sudo chroot rootfs apt-get install -y libx11-dev libxkbfile-dev
