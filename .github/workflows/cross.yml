@@ -1,0 +1,33 @@
+name: cross compiling on Linux
+on: [push]
+
+permissions:
+  contents: read
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: yarn
+        cache-dependency-path: vscode/yarn.lock
+    - run: sudo apt-get install qemu qemu-user-static debootstrap gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
+    - run: |
+        sudo qemu-debootstrap --arch=armhf --variant=minbase xenial rootfs
+        sudo chroot rootfs apt-get install -y libx11-dev libxkbfile-dev
+    - run: |
+        echo CC=$(which arm-linux-gnueabihf-gcc) >> $GITHUB_ENV
+        echo CXX="$(which arm-linux-gnueabihf-g++) -L$(pwd)/rootfs/usr/lib/arm-linux-gnueabihf/" >> $GITHUB_ENV
+        echo npm_config_arch=arm >> $GITHUB_ENV
+        echo npm_config_target_arch=arm >> $GITHUB_ENV
+    - run: |
+        yarn
+        yarn run gulp vscode-linux-arm-min
+        yarn run gulp vscode-linux-arm-build-deb
+      working-directory: ./vscode
