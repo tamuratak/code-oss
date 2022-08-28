@@ -20,7 +20,7 @@ jobs:
     - run: sudo apt-get install qemu qemu-user-static debootstrap gcc-aarch64-linux-gnu g++-aarch64-linux-gnu libc-dev-arm64-cross
     - run: |
         sudo qemu-debootstrap --arch=arm64 --variant=minbase xenial rootfs
-        sudo chroot rootfs apt-get install -y libx11-dev libxkbfile-dev libsecret-1-dev libglib2.0-dev
+        sudo chroot rootfs apt-get install -y libx11-dev libxkbfile-dev libsecret-1-dev libglib2.0-dev libc-dev-arm64-cross
     - run: |
         echo CC=$(which aarch64-linux-gnu-gcc) >> $GITHUB_ENV
         echo CXX="$(which aarch64-linux-gnu-g++) -L$(pwd)/rootfs/usr/lib/aarch64-linux-gnu/ -L/usr/lib/aarch64-linux-gnu/" >> $GITHUB_ENV
